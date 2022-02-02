@@ -1,15 +1,19 @@
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { NextSeo } from "next-seo";
+import { useSession} from "next-auth/react";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 export default function ({ latestLaunch }) {
+  const { data } = useSession();
+
   return (
     <>
       <NextSeo title="Latest Launch | Home" description="Latest Launch" />
-      <h1 className="font-bold text-white text-center mt-10 text-2xl">
-        Latest Launch
-      </h1>
+      <h1 className="font-bold text-white text-center mt-10 text-3xl">{data?`${data.user.name}, `:""} Welcome to SpaceX web</h1>
       <div className="flex justify-center">
         <div className="w-2/6 bg-blue-800 mt-8 py-5 text-white rounded-lg text-center">
+      <h1 className="text-2xl font-semibold mb-2">
+        Latest Launch
+      </h1>
           <img
             className="h-40 mx-auto my-5"
             src={latestLaunch.links.mission_patch_small}

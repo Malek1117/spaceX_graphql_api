@@ -94,3 +94,24 @@ export default function mission() {
     </>
   );
 }
+
+// export const getStaticProps = async (context)=>{
+  
+//   return {
+//       props : {
+//           id : context.params.id,
+//           user : user.data
+//       },
+//       notFound : false
+//   }
+// }
+
+// export const getStaticPaths = async (data)=>{
+//   console.log(data);
+//   return {
+//       paths: [
+          
+//       ],
+//       fallback: false
+//   }
+// }
