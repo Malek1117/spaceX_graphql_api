@@ -12,7 +12,7 @@ export default function launches({ launches }) {
       {data ? (
         <>
           <h1 className="text-white text-center text-2xl font-semibold my-5">
-            All launches details
+            All Launches List
           </h1>
           <table className="mx-auto text-white text-center text-lg table-auto border-separate border border-white">
             <thead>

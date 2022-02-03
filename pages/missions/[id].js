@@ -11,7 +11,7 @@ export default function mission({mission}) {
         description={mission.description}
       />
       {mission ? (
-        <div className="mt-10 bg-blue-700 w-3/6 h-fit mx-auto p-5 rounded-lg text-white">
+        <div className="mt-10 bg-blue-800 w-3/6 h-fit mx-auto p-5 rounded-lg text-white">
           <h1 className="text-center text-4xl my-5 ">{mission.name}</h1>
           <div className="flex justify-around space-x-2">
             <h2 className="font-bold text-lg text-left mx-2">Description </h2>
@@ -57,7 +57,7 @@ export default function mission({mission}) {
           </div>
           <div className="flex justify-center">
             <Link href="/missions">
-              <a href="#" className="bg-blue-600 px-5 py-1 rounded-xl">
+              <a href="#" className="bg-blue-600 px-5 py-1 rounded-xl active:bg-blue-800">
                 Back to Missions
               </a>
             </Link>

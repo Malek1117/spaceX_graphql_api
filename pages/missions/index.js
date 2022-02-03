@@ -14,30 +14,15 @@ export default function missions({ missions }) {
       {data ? (
         <>
           <h1 className="text-white text-center text-2xl font-semibold my-5">
-            All Missions details
+            All Missions List
           </h1>
-          <table className="mx-auto text-white text-center text-lg table-auto border-separate border border-white">
-            <thead>
-              <tr>
-                <th className="border px-5 border-black">Sr. No.</th>
-                <th className="border px-5 border-black">Mission Name</th>
-                <th className="border px-5 border-black">Links</th>
-              </tr>
-            </thead>
-            <tbody>
-              {missions.map((e, i) => (
-                <tr key={e.id}>
-                  <td className="border px-5 border-black">{i + 1}</td>
-                  <td className="border px-5 border-black">{e.name}</td>
-                  <td className="border px-5 border-black">
-                    <Link href={`/missions/${e.id}`}>
-                      Click for more details
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {missions.map((e) => (
+            <Link href={`/missions/${e.id}`}>
+              <div className="active:bg-blue-900 bg-blue-800 w-2/6 mx-auto cursor-pointer text-xl text-white px-10 py-5 my-5 hover:border-l-2 hover:border-white">
+                {e.name}
+              </div>
+            </Link>
+          ))}
         </>
       ) : (
         <div className="text-white mx-auto w-1/6 mt-5 text-center">
