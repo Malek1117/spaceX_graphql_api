@@ -1,46 +1,28 @@
-import React from "react";
 import Link from "next/link";
 import { NextSeo } from "next-seo";
-import { useRouter } from "next/router";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
-export default function mission() {
-  const { query } = useRouter();
-  const [data, setData] = React.useState({});
-
-  React.useEffect(async () => {
-    const results = await fetch("/api/mission", {
-      method: "post",
-      body: query.id,
-    });
-
-    const { mission, error } = await results.json();
-
-    if (error) {
-      alert(error);
-    } else {
-      setData(mission);
-    }
-  }, []);
+export default function mission({mission}) {
 
   return (
     <>
       <NextSeo
-        title={`${data.name} | Mission`}
-        description={data.description}
+        title={`${mission.name} | Mission`}
+        description={mission.description}
       />
-      {data ? (
+      {mission ? (
         <div className="mt-10 bg-blue-700 w-3/6 h-fit mx-auto p-5 rounded-lg text-white">
-          <h1 className="text-center text-4xl my-5 ">{data.name}</h1>
+          <h1 className="text-center text-4xl my-5 ">{mission.name}</h1>
           <div className="flex justify-around space-x-2">
             <h2 className="font-bold text-lg text-left mx-2">Description </h2>
-            <h2>{data.description}</h2>
+            <h2>{mission.description}</h2>
           </div>
           <div className="flex my-5">
             <h2 className="font-bold text-lg text-left mx-2">Website Link </h2>
             <h2 className="truncate">
-              {data.website ? (
-                <a target="_blank" href={data.website}>
-                  {data.website}
+              {mission.website ? (
+                <a target="_blank" href={mission.website}>
+                  {mission.website}
                 </a>
               ) : (
                 "No link available"
@@ -52,9 +34,9 @@ export default function mission() {
               Wikipedia Link{" "}
             </h2>
             <h2 className="truncate">
-              {data.wikipedia ? (
-                <a target="_blank" href={data.wikipedia}>
-                  {data.wikipedia}e
+              {mission.wikipedia ? (
+                <a target="_blank" href={mission.wikipedia}>
+                  {mission.wikipedia}e
                 </a>
               ) : (
                 "No link available"
@@ -64,9 +46,9 @@ export default function mission() {
           <div className="flex my-5">
             <h2 className="font-bold text-lg text-left mx-2">Twitter Link </h2>
             <h2 className="truncate">
-              {data.twitter ? (
-                <a target="_blank" href={data.twitter}>
-                  {data.twitter}
+              {mission.twitter ? (
+                <a target="_blank" href={mission.twitter}>
+                  {mission.twitter}
                 </a>
               ) : (
                 "No link available"
@@ -95,23 +77,61 @@ export default function mission() {
   );
 }
 
-// export const getStaticProps = async (context)=>{
-  
-//   return {
-//       props : {
-//           id : context.params.id,
-//           user : user.data
-//       },
-//       notFound : false
-//   }
-// }
+export const getStaticProps = async (context)=>{
+  const client = new ApolloClient({
+    uri: "https://api.spacex.land/graphql/",
+    cache: new InMemoryCache(),
+  });
 
-// export const getStaticPaths = async (data)=>{
-//   console.log(data);
-//   return {
-//       paths: [
-          
-//       ],
-//       fallback: false
-//   }
-// }
+  const { data } = await client.query({
+    query: gql`
+      query {
+        mission(id: "${context.params.id}") {
+          id
+          description
+          name
+          twitter
+          website
+          wikipedia
+        }
+      }
+    `,
+  });
+  
+  return {
+      props : {
+        mission : data.mission
+      },
+      notFound : false
+  }
+}
+
+export const getStaticPaths = async ()=>{
+  
+  const client = new ApolloClient({
+    uri: "https://api.spacex.land/graphql/",
+    cache: new InMemoryCache(),
+  });
+
+  const { data } = await client.query({
+    query: gql`
+      query {
+        missions {
+          id
+        }
+      }
+    `,
+  });
+
+  const paths  = data.missions.map((e)=>{
+    return {
+      params : {id : e.id}
+    }
+  })
+
+
+  return {
+      paths,
+      fallback: false
+  }
+}

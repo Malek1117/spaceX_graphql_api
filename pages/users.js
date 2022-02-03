@@ -1,4 +1,5 @@
 import React from "react";
+import { NextSeo } from "next-seo";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 export default function Users({ users }) {
@@ -45,38 +46,46 @@ export default function Users({ users }) {
   };
 
   return (
-    <div className="w-1/5 mx-auto text-white">
-      <div className="flex justify-center my-5">
-        <input
-          type="text"
-          className="outline-none text-black px-3 py-1 rounded-lg"
-          placeholder="Add fake user here"
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
-        />
-        <button
-          className="bg-blue-800 px-3 py-1 rounded-lg active:bg-blue-900"
-          onClick={handleAddUser}
-        >
-          Add User
-        </button>
+    <>
+      <NextSeo title="All launches | SpaceX" description="All launches" />
+      <div className="w-1/5 mx-auto text-white">
+        <div className="flex justify-center my-5">
+          <input
+            type="text"
+            className="outline-none text-black px-3 py-1 rounded-lg"
+            placeholder="Add fake user here"
+            value={user}
+            onChange={(e) => setUser(e.target.value)}
+          />
+          <button
+            className="bg-blue-800 px-3 py-1 rounded-lg active:bg-blue-900"
+            onClick={handleAddUser}
+          >
+            Add User
+          </button>
+        </div>
+        <div className="w-full bg-blue-800 rounded-lg p-3 h-fit overflow-y-auto">
+          <h1 className="text-center font-semibold text-lg my-3">
+            {data.length !== 0 ? "All Fake Users" : "No Fake Users"}
+          </h1>
+          <ul>
+            {data.map((e, i) => (
+              <div className="flex justify-between px-8 py-1" key={e.id}>
+                <li>
+                  {i + 1} - {e.name}{" "}
+                </li>
+                <button
+                  className="bg-gray-500 py-1 px-2 rounded-lg active:bg-slate-800"
+                  onClick={() => handleDelete(e.id, i)}
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+          </ul>
+        </div>
       </div>
-      <div className="w-full bg-blue-800 rounded-lg p-3 h-fit overflow-y-auto">
-        <h1 className="text-center font-semibold text-lg my-3">
-          {data.length !== 0 ? "All Fake Users" : "No Fake Users"}
-        </h1>
-        <ul>
-          {data.map((e, i) => (
-            <div className="flex justify-between px-8 py-1" key={e.id}>
-              <li>
-                {i + 1} - {e.name}{" "}
-              </li>
-              <button onClick={() => handleDelete(e.id, i)}>Delete</button>
-            </div>
-          ))}
-        </ul>
-      </div>
-    </div>
+    </>
   );
 }
 
