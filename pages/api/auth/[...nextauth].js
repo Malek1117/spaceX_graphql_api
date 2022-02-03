@@ -13,5 +13,6 @@ export default NextAuth({
   },
   jwt: {
     secret : "kjaddahkjh"
-  }
+  },
+  secret: "2cf38604e5bdsdshjhakdf32503e540a5715a2ceedc38d16910"
 });
